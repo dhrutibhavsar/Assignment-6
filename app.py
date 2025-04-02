@@ -4,7 +4,7 @@ import pandas as pd
 import plotly.express as px
 import os
 
-
+#https://assignment-7-ddph.onrender.com
 try:
     df = pd.read_csv("FIFA World Cup winners.csv")
 except Exception as e:
@@ -12,16 +12,14 @@ except Exception as e:
 
 
 df = df.rename(columns=lambda x: x.strip().replace(" ", "").replace("-", ""))
-df = df.rename(columns={"Winner": "Winner", "Runnerup": "RunnerUp"})  # fixed typo here
+df = df.rename(columns={"Winner": "Winner", "Runnerup": "RunnerUp"}) 
 
-df['Winner'] = df['Winner'].replace({'WestGermany': 'Germany'})
-df['RunnerUp'] = df['RunnerUp'].replace({'WestGermany': 'Germany'})
 
 win_counts = df['Winner'].value_counts().reset_index()
 win_counts.columns = ['Country', 'Wins']
 
 app = dash.Dash(__name__)
-server = app.server  # Required for deployment on Render
+server = app.server  
 
 app.layout = html.Div([
     html.H1("FIFA World Cup Dashboard", style={'textAlign': 'center'}),
