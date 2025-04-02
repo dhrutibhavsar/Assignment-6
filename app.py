@@ -3,13 +3,21 @@ import numpy as np
 from dash import Dash, dcc, html, Input, Output
 import plotly.express as px
 
+
+app = Dash(__name__)
+
+
+server = app.server 
+
+
+
 #https://assignment-6-c4ba.onrender.com
 df = pd.read_csv("FIFA World Cup winners.csv")
 
 country_wins = df['Winner'].value_counts().reset_index()
 country_wins.columns = ['Country', 'Wins']
 
-app = Dash(__name__)
+
 
 
 fig_map = px.choropleth(
@@ -64,4 +72,4 @@ def update_year(selected_year):
 if __name__ == '__main__':
     app.run(debug=True, port=8060) 
 
-server = app.server
+
