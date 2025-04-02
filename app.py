@@ -63,3 +63,5 @@ def update_year(selected_year):
         
 if __name__ == '__main__':
     app.run(debug=True, port=8060) 
+
+server = app.server
