@@ -4,29 +4,25 @@ import pandas as pd
 import plotly.express as px
 import os
 
-# Load dataset
+
 try:
     df = pd.read_csv("FIFA World Cup winners.csv")
 except Exception as e:
     raise RuntimeError(f"Failed to load CSV file: {e}")
 
-# Clean column names: remove whitespace/hyphens and standardize
+
 df = df.rename(columns=lambda x: x.strip().replace(" ", "").replace("-", ""))
 df = df.rename(columns={"Winner": "Winner", "Runnerup": "RunnerUp"})  # fixed typo here
 
-# Standardize country names
 df['Winner'] = df['Winner'].replace({'WestGermany': 'Germany'})
 df['RunnerUp'] = df['RunnerUp'].replace({'WestGermany': 'Germany'})
 
-# Calculate win counts
 win_counts = df['Winner'].value_counts().reset_index()
 win_counts.columns = ['Country', 'Wins']
 
-# Initialize Dash app
 app = dash.Dash(__name__)
 server = app.server  # Required for deployment on Render
 
-# Layout
 app.layout = html.Div([
     html.H1("FIFA World Cup Dashboard", style={'textAlign': 'center'}),
 
@@ -62,7 +58,7 @@ app.layout = html.Div([
     html.Div(id='year-output')
 ])
 
-# Callback for country selection
+
 @app.callback(
     Output('country-output', 'children'),
     Input('country-dropdown', 'value')
@@ -73,7 +69,7 @@ def update_country_info(country):
     wins = win_counts[win_counts['Country'] == country]['Wins'].values[0]
     return f"{country} has won the FIFA World Cup {wins} times."
 
-# Callback for year selection
+
 @app.callback(
     Output('year-output', 'children'),
     Input('year-dropdown', 'value')
@@ -88,6 +84,6 @@ def update_year_info(year):
     runner = row['RunnerUp'].values[0]
     return f"In {year}, {winner} won the World Cup, and {runner} was the runner-up."
 
-# Run locally (ignored on Render)
+
 if __name__ == '__main__':
     app.run(debug=True)
