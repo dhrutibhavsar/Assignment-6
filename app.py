@@ -6,7 +6,7 @@ import os
 
 # Load dataset
 try:
-    df = pd.read_csv("fifa_world_cup_finals.csv")
+    df = pd.read_csv("FIFA World Cup winners.csv")
 except Exception as e:
     raise RuntimeError(f"Failed to load CSV file: {e}")
 
